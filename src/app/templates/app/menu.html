@@ -1,0 +1,12 @@
+{% load tree_menu %}{% spaceless %}
+    {% for item in current_menu %}
+        {% if forloop.first %}<ul class="{% if item.parent == 0 %}topmenu{% else %}submenu{% endif %}">{% endif %}
+        <li class="menu-item-{{ item.id }}">
+            <a href="{{ item.url }}" class="{% if item.active %}active{% endif %}" target="{{ item.target }}">
+                {{ item.name }}
+            </a>
+            {% draw_menu name item.id %}
+        </li>
+        {% if forloop.last %}</ul>{% endif %}
+    {% endfor %}
+{% endspaceless %}

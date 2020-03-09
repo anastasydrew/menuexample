@@ -1,0 +1,18 @@
+FROM python:3.7-stretch
+
+WORKDIR /app
+
+# RUN groupadd celery && useradd -r -u 1001 -g celery celery
+
+COPY ./src/requirements.txt /
+
+RUN apt-get update \
+        && apt-get install -q --assume-yes --no-install-recommends build-essential postgresql-client \
+        && apt-get install openssl \
+        && apt-get install ca-certificates
+
+RUN pip install --upgrade pip
+RUN pip install -r /requirements.txt
+RUN pip install gunicorn
+
+CMD ["gunicorn", "menu_example.wsgi:application"]
